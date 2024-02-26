@@ -12,7 +12,7 @@ async function getPokemons(id, offset = 0) {
     console.error(error);
   }
 }
-function createCard(pokemonName, pokemonUrl, pokemonTypes) {
+function createCard(pokemonName, pokemonUrl, pokemonTypes,stats) {
   const typeClasses = {
     grass: 'bg-success',
     fire: 'bg-danger',
@@ -33,6 +33,8 @@ function createCard(pokemonName, pokemonUrl, pokemonTypes) {
     dark: `bg-black text-white`,
     dragon: `bg-dragon`
   };
+  const statsList = stats.map((stat) => `<li class="col-md-6">${stat.stat.name}: <span class="fw-bold">${stat.base_stat}</span></li>`).join('');
+
 
   const cardBone = `<img src="${pokemonUrl}" alt="${pokemonName}" class="card-img-top">
         <div class="card-body">
@@ -41,13 +43,29 @@ function createCard(pokemonName, pokemonUrl, pokemonTypes) {
                 ${pokemonTypes.map((type) => `<span class=" mx-2 rounded px-1 ${typeClasses[type] || ''}">${type}</span>`).join('')}
             </h4>
         </div>`;
-        
+
+  const cardModel =  `<div class="d-flex flex-column">
+  <img src=${pokemonUrl} alt=""/>
+  <div class="d-flex justify-content-center align-items-center"><h1>${pokemonName}</h1> ${pokemonTypes.map((type) => `<span class=" mx-2 rounded px-1 ${typeClasses[type] || ''}">${type}</span>`).join('')}</div>
+  <div>
+  <ul class="row list-unstyled text-center">${statsList}</ul>
+  </div>
+  </div>`
+  console.log(stats)
   const $card = document.createElement("div");
   $card.innerHTML = cardBone;
   $card.className = `card shadow-sm`;
-  
+  $card.addEventListener(`click`, () => displayCardModel(cardModel));
   return $card;
 }
+
+function displayCardModel(cardModel) {
+  const $modelContainer = document.getElementById('modelContainer');
+  $modelContainer.innerHTML = cardModel;
+  $(window).scrollTop(0);
+}
+
+
 async function loadPokemons(offset, quantity) {
   const $pokemonContainer = document.querySelector("#pokemonContainer");
   $pokemonContainer.innerHTML = "";
@@ -67,12 +85,14 @@ async function loadPokemons(offset, quantity) {
             },
           },
           types: pokemonTypes,
+          stats: stats,
         } = pokemonResponse;
 
         const $card = createCard(
           pokemonName,
           pokemonUrl,
-          pokemonTypes.map((item) => item.type.name)
+          pokemonTypes.map((item) => item.type.name),
+          stats,
         );
         $pokemonContainer.appendChild($card);
       } else {
