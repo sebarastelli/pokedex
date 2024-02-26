@@ -1,4 +1,4 @@
-const URL = "http://192.168.1.9:8080";
+const URL = "http://192.168.100.82:8080";
 
 context("validarPokedex", ()=>{
   beforeEach(()=>{
@@ -6,7 +6,7 @@ context("validarPokedex", ()=>{
   })
   describe("validacion pokedex", () => {
     it("validar que aparezcan los sprites de los pokemons en pantalla", () => {
-      cy.wait(6000)
+      cy.wait(7000)
       cy.get("#pokemonContainer .card").should("have.length",20)
 
     });
@@ -38,6 +38,10 @@ context("validarPokedex", ()=>{
       })
 
       cy.wrap(spritesOriginales).should("not.deep.equals", spritesNuevos)
+    })
+    it("comprobar modelo", ()=>{
+      cy.get('#pokemonContainer').eq(0).click()
+      cy.get("#modelContainer").should("exist")      
     })
    });
 })
