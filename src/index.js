@@ -31,6 +31,7 @@ function createCard(pokemonName, pokemonUrl, pokemonTypes) {
     fighting: `bg-fighting`,
     rock: `bg-rock`,
     dark: `bg-black text-white`,
+    dragon: `bg-dragon`
   };
 
   const cardBone = `<img src="${pokemonUrl}" alt="${pokemonName}" class="card-img-top">
