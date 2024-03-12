@@ -39,7 +39,7 @@ context("validarPokedex", ()=>{
 
       cy.wrap(spritesOriginales).should("not.deep.equals", spritesNuevos)
     })
-    it("comprobar modelo", ()=>{
+    it("Comprobar modelo en segunda página", ()=>{
       cy.get('#pokemonContainer').eq(0).click()
       cy.get("#modelContainer").should("exist")      
     })
