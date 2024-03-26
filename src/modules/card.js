@@ -34,7 +34,7 @@ export function createCard(pokemonName, pokemonUrl, pokemonTypes,stats) {
     <img src=${pokemonUrl} alt=""/>
     <div class="d-flex justify-content-center align-items-center"><h1>${pokemonName}</h1> ${pokemonTypes.map((type) => `<span class=" mx-2 rounded px-1 ${typeClasses[type] || ''}">${type}</span>`).join('')}</div>
     <div>
-    <ul class="row list-unstyled text-center">${statsList}</ul>
+    <ul class="row list-unstyled text-center statsList">${statsList}</ul>
     </div>
     </div>`
     
