@@ -1,0 +1,1 @@
+class Pokemon{constructor(t,s,e,h,i,o){this.name=t,this.sprites=s,this.weight=e,this.height=h,this.stats=i,this.types=o}}export default Pokemon;
