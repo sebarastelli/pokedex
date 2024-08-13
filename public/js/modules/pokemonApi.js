@@ -1,0 +1,1 @@
+import Pokemon from"../clases/pokemon.js";let URL="https://pokeapi.co/api/v2";async function getPokemon(o,e=0){o=URL+`/pokemon/${o+e}/`;try{var t=await(await fetch(o)).json(),n=(console.log(t),new Pokemon(t.name,t.sprites,t.weight,t.height,t.stats,t.types));return n}catch(o){console.error(o)}}export{getPokemon};

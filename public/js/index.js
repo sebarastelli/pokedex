@@ -1,0 +1,1 @@
+import{currentPage,pokePerPage,setPage}from"./modules/pagination.js";function init(){setPage(currentPage)}document.getElementById("prevPage").addEventListener("click",()=>{0<currentPage&&setPage(currentPage-1)}),document.getElementById("nextPage").addEventListener("click",()=>{var e=Math.ceil(1e3/pokePerPage);currentPage<e-1&&setPage(currentPage+1)}),init();
