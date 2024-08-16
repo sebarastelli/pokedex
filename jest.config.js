@@ -12,5 +12,6 @@ export default {
   coveragePathIgnorePatterns: ['/node_modules/', '.*fixture.js'],
   transform: {
     "^.+\\.js$": "babel-jest"
-  }
+  },
+  resolver: "jest-ts-webcompat-resolver"
 };

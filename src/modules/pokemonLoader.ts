@@ -1,12 +1,17 @@
-import { getPokemon } from './pokemonApi.js';
-import { createCard } from './card.js';
-import Pokemon from "../clases/pokemon.js";
+import { getPokemon } from './pokemonApi';
+import { createCard } from './card';
+import Pokemon from '../clases/pokemon';
 
-export async function loadPokemons(offset, quantity) {
-  const $pokemonContainer = document.querySelector("#pokemonContainer");
+export async function loadPokemons(offset: number, quantity: number): Promise<void> {
+  const $pokemonContainer = document.querySelector<HTMLDivElement>("#pokemonContainer");
+  if (!$pokemonContainer) return;
+
   $pokemonContainer.innerHTML = "";
+
   for (let i = 1; i <= quantity; i++) {
-    await getPokemon(i, offset).then((pokemonResponse) => {
+    try {
+      const pokemonResponse = await getPokemon(i, offset);
+
       if (pokemonResponse) {
         const pokemon = new Pokemon(
           pokemonResponse.name,
@@ -16,7 +21,8 @@ export async function loadPokemons(offset, quantity) {
           pokemonResponse.stats,
           pokemonResponse.types
         );
-        console.log(pokemon)
+        console.log(pokemon);
+
         const $card = createCard(pokemon);
         $pokemonContainer.appendChild($card);
       } else {
@@ -25,6 +31,8 @@ export async function loadPokemons(offset, quantity) {
           pokemonResponse
         );
       }
-    });
+    } catch (error) {
+      console.error("Error al obtener el Pokémon:", error);
+    }
   }
 }
