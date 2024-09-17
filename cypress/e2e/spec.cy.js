@@ -1,25 +1,12 @@
 describe("Pokedex", () => {
-  let fetchPolyfill;
-
-  before(() => {
-    const polyfillUrl = "https://unpkg.com/unfetch/dist/unfetch.umd.js";
-
-    cy.request(polyfillUrl).then((response) => {
-      fetchPolyfill = response.body;
-    });
-
+  beforeEach(() => {
     cy.intercept(
       "GET",
-      "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20",
+      "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0",
       { fixture: "listado1" }
     ).as("obtenerPrimeraPagina");
 
-    cy.visit("http://127.0.0.1:8080", {
-      onBeforeLoad(contentWindow) {
-        contentWindow.eval(fetchPolyfill);
-        contentWindow.fetch = contentWindow.unfetch;
-      },
-    });
+    cy.visit("http://127.0.0.1:8080");
   });
 
   it("Carga la primer página", () => {
@@ -33,24 +20,17 @@ describe("Pokedex", () => {
   });
 
   it("Usa el paginador", () => {
-    cy.visit("http://127.0.0.1:8080");
     cy.intercept(
       "GET",
-      "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20",
+      "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0",
       { fixture: "listado1" }
     ).as("obtenerPrimeraPagina");
 
     cy.intercept(
       "GET",
-      "https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20",
+      "https://pokeapi.co/api/v2/pokemon?limit=20&offset=20",
       { fixture: "listado2" }
     ).as("obtenerSegundaPagina");
-
-    cy.intercept(
-      "GET",
-      "https://pokeapi.co/api/v2/pokemon/?offset=960&limit=20",
-      { fixture: "listado49" }
-    ).as("obtenerUltimaPagina");
 
     cy.get(".pagination #prevPage")
       .as("paginaAnterior")
@@ -70,8 +50,6 @@ describe("Pokedex", () => {
 
   it("Carga un pokemon cuando se lo selecciona del índice", () => {
     const CANTIDAD_SPAN = 8;
-
-    cy.visit("http://127.0.0.1:8080");
 
     cy.intercept("GET", "https://pokeapi.co/api/v2/pokemon/bulbasaur", {
       fixture: "bulbasaur",

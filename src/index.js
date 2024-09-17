@@ -1,4 +1,4 @@
-import { currentPage, pokePerPage, setPage } from './modules/pagination.js';
+import { currentPage, pokePerPage, setPage } from "./modules/pagination.js";
 
 document.getElementById("prevPage").addEventListener("click", () => {
   if (currentPage > 0) {
